@@ -3,10 +3,11 @@ import os
 import subprocess
 import time
 from get_time import counts_remained_time_till_midnight_in_sec
+from consts import ip
 
 
-ip = '192.168.0.4'
-ip_nat = '192.168.0.8'
+#ip = '192.168.0.4' # ip Lena
+#ip_nat = '192.168.0.8'
 
 encoding = os.device_encoding(1) or ctypes.windll.kernel32.GetOEMCP()
 
