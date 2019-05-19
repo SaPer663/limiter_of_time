@@ -1,8 +1,8 @@
-import datetime
+from datetime import datetime as dt
 
 
 def counts_remained_time_till_midnight_in_sec(): #выдаёт оставшееся время до 00:00
-    now = datetime.datetime.now()
+    now = dt.now()
     time_string_of_ISO_format = now.time().isoformat(timespec='seconds')
     current_time_list_hour_min_sec = [int(i) for i in time_string_of_ISO_format.split(':')]
     the_remained_time_sec = 86400 - (current_time_list_hour_min_sec[0] * 3600 +
@@ -10,6 +10,7 @@ def counts_remained_time_till_midnight_in_sec(): #выдаёт оставшее�
     return the_remained_time_sec
 
 def today(): # возвращает сегоднешнее число
-    current_date = datetime.date.today()
-    return (current_date.day)
-print(str(today()) + '\n')
+    current_date = dt.today()
+    return current_date.day
+
+
