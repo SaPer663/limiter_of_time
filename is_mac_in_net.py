@@ -2,7 +2,7 @@ import ctypes
 import os
 import subprocess
 import time
-from get_time import counts_remained_time_till_midnight_in_sec, today
+from get_time import counts_remained_time_till_9am_in_sec, today, current_time
 from consts import ip, wireless_url, wireless_headers, mac_address
 from requests_to_the_router import mac_filter_on, mac_filter_off, check_mac
 
@@ -22,24 +22,26 @@ def check_device(ip):
     return False
 
 
-log = open('log.txt', 'a')
+log = open(r'E:\\python_test\my_router_test\lim\log.txt', 'a')
 mac_filter_status = False
-now_today = today()
+now = today()
 count = 0
 while True:
     print('START')
+    log.write('Start' + '\n')
     if mac_filter_status:
         mac_filter_status = False
         mac_filter_off()
-        print('Dis')
     time_limit = 0
     while True:
         if count % 20 == 0:
             print(f'OK {str(time_limit)}')
-        current_day = today()
-        log.write(str(current_day) + '\n')
-        if current_day != now_today:
-            now_today = current_day
+            count = 0
+        if int(current_time()) > 21:
+            mac_filter_status = True
+            mac_filter_on()
+            log.write('lim = 7200  mac_filter_ON' + '\n')
+            time.sleep(counts_remained_time_till_9am_in_sec())
             break
         if time_limit == 7200:
             time_limit = 0
@@ -47,20 +49,12 @@ while True:
                 mac_filter_status == True
                 mac_filter_on()
                 log.write('lim = 7200  mac_filter_ON' + '\n')
-            time.sleep(counts_remained_time_till_midnight_in_sec() + 32400) # 32400сек- время с 0 до 9
+            time.sleep(counts_remained_time_till_9am_in_sec()) #  с текущего времени до 9 утра
             break
         if check_device(ip): # проверка по ping
             if check_mac(mac_address): #проверка по веб морде роутера
                 time_limit += 30
         count += 1        
-        time.sleep(30)
-    
+        time.sleep(30)    
     mac_filter_off()
-    log.write('mac_filter_OFF')
-
-
-
-
-
-
-
+    log.write('mac_filter_OFF' + '\n')

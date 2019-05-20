@@ -78,9 +78,3 @@ def check_mac(mac_address):
             return False
     else:
         return False
-
-
-
-
-
-    

@@ -17,9 +17,3 @@ def today(): # возвращает сегоднешнее число
 def current_time():
     now = dt.now()
     return now.hour
-
-
-
-    
-
-
