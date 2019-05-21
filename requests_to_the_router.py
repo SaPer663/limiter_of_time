@@ -1,5 +1,6 @@
 import requests
 import time
+import logging
 from bs4 import BeautifulSoup
 from consts import auth_form, auth_headers, auth_url_post, dhcp_list_url, dhcp_list_headers, continue_url
 from consts import deny_form, deny_headers, disable_form, disable_headers, url_deny_disable, continue_headers
@@ -26,13 +27,15 @@ def get_continue():
 # deny_post ------------------------------------------
 def mac_filter_on():
     authorization()
+    logger = logging.getLogger("is_mac.requests_to.filter_on")
+    logger.info("mac_filter_on")
     r = requests.get(dhcp_list_url, headers=dhcp_list_headers) 
     if r.status_code == 200:
         dhcp_list = data_extraction_from_html(r.text, 'dhcp_list') # получение списка девайсов подкл. к роут.
         deny_form['dhcp_list'] = dhcp_list   # изменнение списка в форме запроса
     else:
         return print(r.status_code)
-    if False: # проверка вкл. ли фильтер
+    if False: # проверка вкл. ли фильтр
         print('already_Deny')
     else:
         r = requests.post(url_deny_disable, headers=deny_headers, data=deny_form)
@@ -47,6 +50,8 @@ def mac_filter_on():
 # disable_post --------------------------
 def mac_filter_off():
     authorization()
+    logger = logging.getLogger("is_mac.requests_to.filter_off")
+    logger.info("mac_filter_off")
     r = requests.get(dhcp_list_url, headers=dhcp_list_headers)
     if r.status_code == 200:
         dhcp_list = data_extraction_from_html(r.text, 'dhcp_list')
@@ -70,6 +75,8 @@ def mac_filter_off():
 # check mac in wirelist
 def check_mac(mac_address):
     authorization()
+    logger = logging.getLogger("is_mac.requests_to.check_mac")
+    logger.info("check_mac")
     r = requests.get(wireless_url, headers=wireless_headers)
     if r.status_code == 200:
         if mac_address in to_separate_mac_address(mac_address):
