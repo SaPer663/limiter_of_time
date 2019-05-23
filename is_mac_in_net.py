@@ -56,19 +56,19 @@ while True:
         if time_limit == 7200:
             time_limit = 0
             if mac_filter_status == 0:
-                mac_filter_status == True
+                mac_filter_status = True
                 mac_filter_on()
                 logger.info(f'ON mac_filter_status: {mac_filter_status} time_limit sleep')           
             time.sleep(counts_remained_time_till_9am_in_sec()) #  с текущего времени до 9 утра
             break
         if check_device(ip):
             logger.info(f'check_device') # проверка по ping
-            if check_mac(mac_address): #проверка по веб морде роутера
-                time_limit += 30
+#            if check_mac(mac_address): #проверка по веб морде роутера
+            time_limit += 30
         count += 1        
         time.sleep(30)    
-    mac_filter_off()
-    mac_filter_status = False
+#    mac_filter_off()
+#    mac_filter_status = False
     logger.info(f'OFF mac_filter_status: {mac_filter_status} end loop')
     
 
