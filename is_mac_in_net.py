@@ -7,27 +7,39 @@ from get_time import counts_remained_time_till_9am_in_sec, today, current_time
 from consts import ip, wireless_url, wireless_headers, mac_address
 from requests_to_the_router import mac_filter_on, mac_filter_off, check_mac
 
+#windows edition
+#encoding = os.device_encoding(1) or ctypes.windll.kernel32.GetOEMCP()
 
-encoding = os.device_encoding(1) or ctypes.windll.kernel32.GetOEMCP()
+#def check_device(ip):
+#функция выполняет проверку по ip и mac нахождения телефона в дом. сети и возвр. True or False    
+#    try:
+#        subprocess.check_output(rf'ping -n 1 {ip}', encoding=encoding)
+#        text_arp = subprocess.check_output(rf'arp -a {ip}', encoding=encoding).split()
+#    except Exception:
+#        return False
+#    else:
+#        if len(text_arp) > 8:
+#            return True
+#    return False
 
 def check_device(ip):
 #функция выполняет проверку по ip и mac нахождения телефона в дом. сети и возвр. True or False    
     try:
-        subprocess.check_output(rf'ping -n 1 {ip}', encoding=encoding)
-        text_arp = subprocess.check_output(rf'arp -a {ip}', encoding=encoding).split()
+        subprocess.check_output(rf'ping -c 1 {ip}', shell=True)
+        text_arp = subprocess.check_output(rf'arp -a {ip}', shell=True, universal_newlines=True).split()
+        print(text_arp)
     except Exception:
         return False
     else:
-        if len(text_arp) > 8:
+        if mac_address in text_arp:
             return True
     return False
 
 
-log = open(r'E:\\python_test\my_router_test\lim\log.txt', 'a')
 logger = logging.getLogger('is_mac')
 logger.setLevel(logging.INFO)
 # create the logging file handler
-fh = logging.FileHandler(r'E:\\python_test\my_router_test\lim\logging.log')
+fh = logging.FileHandler(r'~/python_prog/my_router_test/logging.log')
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 fh.setFormatter(formatter)
 # add handler to logger object
@@ -70,5 +82,5 @@ while True:
 #    mac_filter_off()
 #    mac_filter_status = False
     logger.info(f'OFF mac_filter_status: {mac_filter_status} end loop')
-    
+
 
