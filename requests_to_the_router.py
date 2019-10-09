@@ -4,7 +4,7 @@ import logging
 from bs4 import BeautifulSoup
 from consts import auth_form, auth_headers, auth_url_post, dhcp_list_url, dhcp_list_headers, continue_url
 from consts import deny_form, deny_headers, disable_form, disable_headers, url_deny_disable, continue_headers
-from consts import wireless_url, wireless_headers, mac_address
+from consts import wireless_url, wireless_headers, mac_address, deny_homedevice_form, deny_all_form
 from data_extraction import to_separate_mac_address, data_extraction_from_html
 
 # authorization -----------------------------------------
@@ -24,7 +24,7 @@ def get_continue():
         print(r.status_code)
 
 
-# deny_post ------------------------------------------
+# deny_post ------------------------------------------Lena_access_off
 def mac_filter_on():
     authorization()
     logger = logging.getLogger("is_mac.requests_to.filter_on")
@@ -45,7 +45,51 @@ def mac_filter_on():
             get_continue()
         else:
             print(r.status_code)
+
+#off homedevice and Lena
+def mac_filter_on_for_all():
+    authorization()
+    logger = logging.getLogger("is_mac.requests_to.filter_on")
+    logger.info("mac_filter_on")
+    r = requests.get(dhcp_list_url, headers=dhcp_list_headers) 
+    if r.status_code == 200:
+        dhcp_list = data_extraction_from_html(r.text, 'dhcp_list') # получение списка девайсов подкл. к роут.
+        deny_form['dhcp_list'] = dhcp_list   # изменнение списка в форме запроса
+    else:
+        return print(r.status_code)
+    if False: # проверка вкл. ли фильтр
+        print('already_Deny')
+    else:
+        r = requests.post(url_deny_disable, headers=deny_headers, data=deny_all_form)
+        if r.status_code == 200:
+            time.sleep(15)
+            print('DENY')
+            get_continue()
+        else:
+            print(r.status_code)
     
+#off homedevice
+def mac_filter_on_for_homedevice():
+    authorization()
+    logger = logging.getLogger("is_mac.requests_to.filter_on")
+    logger.info("mac_filter_on")
+    r = requests.get(dhcp_list_url, headers=dhcp_list_headers) 
+    if r.status_code == 200:
+        dhcp_list = data_extraction_from_html(r.text, 'dhcp_list') # получение списка девайсов подкл. к роут.
+        deny_form['dhcp_list'] = dhcp_list   # изменнение списка в форме запроса
+    else:
+        return print(r.status_code)
+    if False: # проверка вкл. ли фильтр
+        print('already_Deny')
+    else:
+        r = requests.post(url_deny_disable, headers=deny_headers, data=deny_homedevice_form)
+        if r.status_code == 200:
+            time.sleep(15)
+            print('DENY')
+            get_continue()
+        else:
+            print(r.status_code)
+
 
 # disable_post --------------------------
 def mac_filter_off():
