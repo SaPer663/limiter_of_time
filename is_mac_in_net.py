@@ -38,7 +38,7 @@ def check_device(ip):
 logger = logging.getLogger('is_mac')
 logger.setLevel(logging.INFO)
 # create the logging file handler
-fh = logging.FileHandler(r'logging.log')
+fh = logging.FileHandler(r'/home/saper663/logging.log')
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 fh.setFormatter(formatter)
 # add handler to logger object
