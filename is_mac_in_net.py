@@ -27,7 +27,6 @@ def check_device(ip):
     try:
         subprocess.check_output(rf'ping -c 1 {ip}', shell=True)
         text_arp = subprocess.check_output(rf'arp -a {ip}', shell=True, universal_newlines=True).split()
-        print(text_arp)
     except Exception:
         return False
     else:
@@ -39,7 +38,7 @@ def check_device(ip):
 logger = logging.getLogger('is_mac')
 logger.setLevel(logging.INFO)
 # create the logging file handler
-fh = logging.FileHandler(r'~/python_prog/my_router_test/logging.log')
+fh = logging.FileHandler(r'logging.log')
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 fh.setFormatter(formatter)
 # add handler to logger object
