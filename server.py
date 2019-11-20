@@ -17,34 +17,34 @@ def command_start(message):
 
 @bot.message_handler(commands=["on_all"])
 def on(message):
+    mac_filter_off()
     bot.send_message(message.chat.id, "on all")
     print('on')
-    mac_filter_off()
 
 @bot.message_handler(commands=["off_all"])
 def off(message):
+    mac_filter_on_for_all()
     bot.send_message(message.chat.id, "off all")
     print('off')
-    mac_filter_on_for_all()
     
 
 @bot.message_handler(commands=["child"])
 def child(message):
+    mac_filter_on()
     bot.send_message(message.chat.id, "off child")
     print('child')
-    mac_filter_on()
 
 @bot.message_handler(commands=["devices"])
 def devices(message):
+    mac_filter_on_for_homedevice()
     bot.send_message(message.chat.id, "off devices")
     print('devices')
-    mac_filter_on_for_homedevice() 
 
 @bot.message_handler(commands=["on_devices"])
 def on_devices(message):
+    mac_filter_on()
     bot.send_message(message.chat.id, "on devices")
     print('ON devices')
-    mac_filter_on()
 
 class WebhookServer(object):
     # index равнозначно /, т.к. отсутствию части после ip-адреса (грубо говоря)
@@ -58,31 +58,7 @@ class WebhookServer(object):
         return ''
 
 
-'''class Server_Handler(object):
-    @cherrypy.expose
-    def index(self): # on all
-        print('on')
-        mac_filter_off()
-        return ""
 
-    @cherrypy.expose
-    def off(self): # off all
-        print('off')
-        mac_filter_on_for_all()
-        return ''
-
-    @cherrypy.expose
-    def child(self): # off child
-        print('child')
-        mac_filter_on()
-        return ''
-    
-    @cherrypy.expose
-    def devices(self): # off devices
-        print('devices')
-        mac_filter_on_for_homedevice()
-        return ''
-'''
 
 if __name__ == '__main__':
 
