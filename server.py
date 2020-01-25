@@ -6,10 +6,20 @@ import telebot
 from requests_to_the_router import mac_filter_off, mac_filter_on,\
     mac_filter_on_for_all, mac_filter_on_for_homedevice
 from config import token
+from telebot import types
 
 
 
 bot = telebot.TeleBot(token)
+
+@bot.message_handler(commands=["keyboard"])
+def keyboard(message):
+    markup = types.ReplyKeyboardMarkup(row_width=2)
+    itembtn1 = types.KeyboardButton('a')
+    itembtn2 = types.KeyboardButton('v')
+    itembtn3 = types.KeyboardButton('d')
+    markup.add(itembtn1, itembtn2, itembtn3)
+    bot.send_message(chat_id, "Выбери действие:", reply_markup=markup)
 
 @bot.message_handler(commands=["start"])
 def command_start(message):
