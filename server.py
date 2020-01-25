@@ -16,29 +16,29 @@ bot = telebot.TeleBot(token)
 @bot.message_handler(commands=["start"])
 def command_start(message):
     markup = types.ReplyKeyboardMarkup(row_width=2)
-    itembtn1 = types.KeyboardButton('on_all')
-    itembtn2 = types.KeyboardButton('off_all')
-    itembtn3 = types.KeyboardButton('child')
+    itembtn1 = types.KeyboardButton('вкл wi-fi всем')
+    itembtn2 = types.KeyboardButton('выкл wi-fi всем')
+    itembtn3 = types.KeyboardButton('выключить wi-fi ребёнку')
     markup.add(itembtn1, itembtn2, itembtn3)
     bot.send_message(message.chat.id, "Привет! Я бот - сисадмин", reply_markup=markup)
 
-@bot.message_handler(commands=["on_all"])
+@bot.message_handler(regexp=r"вкл wi-fi всем")
 def on(message):
     mac_filter_off()
-    bot.send_message(message.chat.id, "on all")
+    bot.send_message(message.chat.id, "wi-fi доступен всем устройствам")
     print('on')
 
-@bot.message_handler(commands=["off_all"])
+@bot.message_handler(regexp=r"выкл wi-fi всем")
 def off(message):
     mac_filter_on_for_all()
-    bot.send_message(message.chat.id, "off all")
+    bot.send_message(message.chat.id, "wi-fi не доступен всем устройствам")
     print('off')
     
 
-@bot.message_handler(commands=["child"])
+@bot.message_handler(regexp=r"выключить wi-fi ребёнку")
 def child(message):
     mac_filter_on()
-    bot.send_message(message.chat.id, "off child")
+    bot.send_message(message.chat.id, "wi-fi не доступен для телефона ребёнка")
     print('child')
 
 @bot.message_handler(commands=["devices"])
