@@ -23,7 +23,13 @@ def keyboard(message):
 
 @bot.message_handler(commands=["start"])
 def command_start(message):
-    bot.send_message(message.chat.id, "Привет! Я бот - сисадмин")
+    markup = types.ReplyKeyboardMarkup(row_width=2)
+    itembtn1 = types.KeyboardButton('a')
+    itembtn2 = types.KeyboardButton('v')
+    itembtn3 = types.KeyboardButton('d')
+    markup.add(itembtn1, itembtn2, itembtn3)
+#    bot.send_message(message.chat_id, "Выбери действие:", reply_markup=markup)
+    bot.send_message(message.chat.id, "Привет! Я бот - сисадмин", reply_markup=markup)
 
 @bot.message_handler(commands=["on_all"])
 def on(message):
