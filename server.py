@@ -19,7 +19,7 @@ def keyboard(message):
     itembtn2 = types.KeyboardButton('v')
     itembtn3 = types.KeyboardButton('d')
     markup.add(itembtn1, itembtn2, itembtn3)
-    bot.send_message(chat_id, "Выбери действие:", reply_markup=markup)
+    bot.send_message(message.chat_id, "Выбери действие:", reply_markup=markup)
 
 @bot.message_handler(commands=["start"])
 def command_start(message):
