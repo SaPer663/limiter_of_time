@@ -12,23 +12,14 @@ from telebot import types
 
 bot = telebot.TeleBot(token)
 
-@bot.message_handler(commands=["keyboard"])
-def keyboard(message):
-    markup = types.ReplyKeyboardMarkup(row_width=2)
-    itembtn1 = types.KeyboardButton('a')
-    itembtn2 = types.KeyboardButton('v')
-    itembtn3 = types.KeyboardButton('d')
-    markup.add(itembtn1, itembtn2, itembtn3)
-    bot.send_message(message.chat_id, "Выбери действие:", reply_markup=markup)
 
 @bot.message_handler(commands=["start"])
 def command_start(message):
     markup = types.ReplyKeyboardMarkup(row_width=2)
-    itembtn1 = types.KeyboardButton('a')
-    itembtn2 = types.KeyboardButton('v')
-    itembtn3 = types.KeyboardButton('d')
+    itembtn1 = types.KeyboardButton('on_all')
+    itembtn2 = types.KeyboardButton('off_all')
+    itembtn3 = types.KeyboardButton('child')
     markup.add(itembtn1, itembtn2, itembtn3)
-#    bot.send_message(message.chat_id, "Выбери действие:", reply_markup=markup)
     bot.send_message(message.chat.id, "Привет! Я бот - сисадмин", reply_markup=markup)
 
 @bot.message_handler(commands=["on_all"])
